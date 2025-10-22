@@ -1,96 +1,33 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 export default function Produk() {
+  const [search, setSearch] = useState('');
+
   const products = [
-    {
-      id: '1',
-      name: 'Kaos Polos Premium',
-      price: 59000,
-      image: require('../../assets/images/bajuhitam.jpg'),
-    },
-    {
-      id: '2',
-      name: 'Celana Jeans Slimfit',
-      price: 150000,
-      image: require('../../assets/images/slimfit.jpg'),
-    },
-    {
-      id: '3',
-      name: 'Sepatu casual Pria',
-      price: 300000,
-      image: require('../../assets/images/sepatuk.jpg'),
-    },
-    {
-      id: '4',
-      name: 'Tas Selempang Wanita',
-      price: 89000,
-      image: require('../../assets/images/tas selempang wanita.jpg'),
-    },
-    {
-      id: '5',
-      name: 'celana jeans slimstraigth',
-      price: 500000,
-      image: require('../../assets/images/celana jeans slimstraigth.jpg'),
-    },
-    {
-      id: '6',
-      name: 'sepatu boot pria',
-      price: 400000,
-      image: require('../../assets/images/boot pria.jpg'),
-    },
-    {
-      id: '7',
-      name: 'tas unisex',
-      price: 220000,
-      image: require('../../assets/images/tas.jpg'),
-    },
-    {
-      id: '8',
-      name: 'Topi pria skena',
-      price: 110000,
-      image: require('../../assets/images/topi.jpg'),
-    },
-    {
-      id: '9',
-      name: 'Sepatu convers 70 s',
-      price: 700000,
-      image: require('../../assets/images/convers 70s.jpg'),
-    },
-    {
-      id: '10',
-      name: 'kemeja wispie wanita',
-      price: 130000,
-      image: require('../../assets/images/wispie.jpg'),
-    },
-    {
-      id: '11',
-      name: 'hp samsung s25 ultra',
-      price: 24000000,
-      image: require('../../assets/images/hp.jpg'),
-    },
-    {
-      id: '12',
-      name: 'nasi goreng spesial',
-      price: 90000,
-      image: require('../../assets/images/nasi goreng.jpg'),
-    },
-    {
-      id: '13',
-      name: 'sepeda listrik',
-      price: 5000000,
-      image: require('../../assets/images/sepeda.jpg'),
-    },
-    {
-      id: '14',
-      name: 'celana lari pria',
-      price: 85000,
-      image: require('../../assets/images/celana lari.jpg'),
-    },
+    { id: '1', name: 'Kaos Polos Premium', price: 59000, image: require('../../assets/images/bajuhitam.jpg') },
+    { id: '2', name: 'Celana Jeans Slimfit', price: 150000, image: require('../../assets/images/slimfit.jpg') },
+    { id: '3', name: 'Sepatu casual Pria', price: 300000, image: require('../../assets/images/sepatuk.jpg') },
+    { id: '4', name: 'Tas Selempang Wanita', price: 89000, image: require('../../assets/images/tas selempang wanita.jpg') },
+    { id: '5', name: 'Celana Jeans Slimstraigth', price: 500000, image: require('../../assets/images/celana jeans slimstraigth.jpg') },
+    { id: '6', name: 'Sepatu Boot Pria', price: 400000, image: require('../../assets/images/boot pria.jpg') },
+    { id: '7', name: 'Tas Unisex', price: 220000, image: require('../../assets/images/tas.jpg') },
+    { id: '8', name: 'Topi Pria Skena', price: 110000, image: require('../../assets/images/topi.jpg') },
+    { id: '9', name: 'Sepatu Converse 70s', price: 700000, image: require('../../assets/images/convers 70s.jpg') },
+    { id: '10', name: 'Kemeja Wispie Wanita', price: 130000, image: require('../../assets/images/wispie.jpg') },
+    { id: '11', name: 'HP Samsung S25 Ultra', price: 24000000, image: require('../../assets/images/hp.jpg') },
+    { id: '12', name: 'Nasi Goreng Spesial', price: 90000, image: require('../../assets/images/nasi goreng.jpg') },
+    { id: '13', name: 'Sepeda Listrik', price: 5000000, image: require('../../assets/images/sepeda.jpg') },
+    { id: '14', name: 'Celana Lari Pria', price: 85000, image: require('../../assets/images/celana lari.jpg') },
   ];
+
+  // Filter produk berdasarkan pencarian
+  const filteredProducts = products.filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const renderItem = ({ item }: any) => (
     <View style={styles.card}>
@@ -99,17 +36,29 @@ export default function Produk() {
       <Text style={styles.price}>Rp {item.price.toLocaleString('id-ID')}</Text>
       <TouchableOpacity style={styles.addButton}>
         <Ionicons name="cart-outline" size={17} color="#fff" />
-        <Text style={styles.addText}>tambah keranjang</Text>
+        <Text style={styles.addText}>Tambah Keranjang</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Produk Terbaru </Text>
+      {/* 🔍 Search Bar */}
+      <View style={styles.searchContainer}>
+        <Ionicons name="search-outline" size={20} color="#777" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Cari produk..."
+          value={search}
+          onChangeText={setSearch}
+          placeholderTextColor="#888"
+        />
+      </View>
+
+      <Text style={styles.header}>Produk Terbaru</Text>
 
       <FlatList
-        data={products}
+        data={filteredProducts}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         numColumns={2}
@@ -127,6 +76,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 50,
     paddingHorizontal: 15,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 8,
+    fontSize: 15,
+    color: '#333',
+    paddingVertical: 8,
   },
   header: {
     fontSize: 22,
