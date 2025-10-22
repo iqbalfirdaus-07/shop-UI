@@ -43,6 +43,8 @@ export default function Produk() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>Produk Terbaru</Text>
+
       {/* 🔍 Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search-outline" size={20} color="#777" />
@@ -54,8 +56,6 @@ export default function Produk() {
           placeholderTextColor="#888"
         />
       </View>
-
-      <Text style={styles.header}>Produk Terbaru</Text>
 
       <FlatList
         data={filteredProducts}
@@ -77,13 +77,20 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 15,
   },
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#ff6600',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f2f2f2',
     borderRadius: 10,
     paddingHorizontal: 10,
-    marginBottom: 15,
+    marginBottom: 20,
   },
   searchInput: {
     flex: 1,
@@ -91,13 +98,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#333',
     paddingVertical: 8,
-  },
-  header: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#ff6600',
-    marginBottom: 20,
-    textAlign: 'center',
   },
   list: {
     paddingBottom: 80,
